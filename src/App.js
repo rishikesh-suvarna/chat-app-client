@@ -1,24 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
+import React from 'react'
+import Login from './Components/Login/Login';
+import Dashboard from './Components/Dashboard/Dashboard';
+import useLocalStorage from './Hooks/useLocalStorage'
+import { ContactsProvider } from './Context/ContactsProvider';
+import { ConversationsProvider } from './Context/ConversationsProvider';
 
 function App() {
+  const [id, setId] = useLocalStorage('id')
+
+  const dashboard = (
+    <ContactsProvider>
+      <ConversationsProvider>
+        <Dashboard id={id} />
+      </ConversationsProvider>
+    </ContactsProvider>
+  )
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      id ? dashboard : <Login onIdSubmit={setId} />
   );
 }
 
